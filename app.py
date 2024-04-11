@@ -7,7 +7,6 @@ import os
 
 app = Flask(__name__)
 
-# Load the pre-trained model
 model = load_model('digit_recognizer.h5')
 
 @app.route('/')
@@ -19,16 +18,18 @@ def predict():
     if request.method == 'POST':
         file = request.files['file']
         if file:
-            # Save the uploaded file
+            
             file_path = 'uploaded_image.png'
-            file.save(file_path)  # Save the uploaded file as 'uploaded_image.png'
+
+            file.save(file_path)  
             # Preprocess the uploaded image
-            img = Image.open(file_path).convert('L')  # Convert to grayscale
-            img = img.resize((28, 28))  # Resize to 28x28
+            img = Image.open(file_path).convert('L')  
+            img = img.resize((28, 28)) 
             img_array = np.array(img)
-            img_array = np.invert(img_array)  # Invert colors
-            img_array = img_array.reshape(1, 28, 28, 1)  # Reshape for model input
-            img_array = img_array.astype('float32') / 255.0  # Normalize
+            img_array = np.invert(img_array)  
+            img_array = img_array.reshape(1, 28, 28, 1) 
+            img_array = img_array.astype('float32') / 255.0
+
             # Make predictions using the pre-trained model
             out = model.predict(img_array)
             prediction = np.argmax(out, axis=1)
