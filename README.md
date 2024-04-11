@@ -2,7 +2,7 @@
 
 This project implements a web application for recognizing handwritten digits using a CNN model. The application is built using the Flask framework, which allows for creating web interfaces with Python.
 
-#Dependencies
+# Dependencies
 To run the application, you need the following dependencies installed:
 
 Python (version 3.11 or later)
