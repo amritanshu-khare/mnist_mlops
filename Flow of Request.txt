@@ -1,0 +1,56 @@
+﻿Flow of Request
+
+
+Initialization:
+
+
+The Flask application is initialized using the Flask(__name__) constructor. This creates a Flask instance.
+
+
+Loading the Pre-trained Model:
+
+
+The pre-trained Keras model is loaded using load_model. This model is used for making predictions on images uploaded by users.
+
+
+Routing:
+
+
+Two routes are defined:
+* '/': This route renders the index.html template when accessed via a GET request. This is the home page of the application.
+* '/predict/': This route is used for handling image upload and making predictions. It accepts POST requests containing image files.
+
+
+GET Request Handling:
+
+
+When the user accesses the home page ('/' route) using a web browser or similar client, the index() function is invoked. This function renders the index.html template, that contains a form for uploading images.
+
+
+POST Request Handling:
+
+
+When the user submits an image through the form on the home page, a POST request is sent to the '/predict/' route. The predict() function is invoked to handle this request.
+Inside the predict() function:
+* The uploaded image file is obtained from the request using request.files['file'].
+* If a file is uploaded, it is saved temporarily on the server as 'uploaded_image.png'.
+   * The uploaded image is preprocessed:
+   * It is converted to grayscale.
+   * Resized to 28x28 pixels.
+   * Colors are inverted (if necessary).
+   * Converted to a numpy array and normalized.
+* The preprocessed image array is fed into the pre-trained model to make predictions.
+* The predicted label is extracted from the model output.
+* The predicted label is returned as the response to the client.
+
+
+Error Handling:
+
+
+If no file is uploaded or if there's an error during processing, an appropriate error message is returned to the client.
+
+
+Running the Application:
+
+
+The Flask application is run using app.run(). By default, it runs on localhost (127.0.0.1) on port 5000.
