@@ -46,6 +46,9 @@ from keras.preprocessing.image import ImageDataGenerator
 
 from keras.utils import to_categorical
 
+import mlflow
+import mlflow.keras
+
 #from keras.datasets import mnist
 
 model=Sequential()
@@ -85,7 +88,7 @@ X_test.shape,X_test[1].shape
 y_pred = y_prob.argmax(axis=1)
 
 from sklearn.metrics import accuracy_score
-accuracy_score(y_test,y_pred)
+accuracy = accuracy_score(y_test,y_pred)
 
 plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
@@ -98,3 +101,32 @@ plt.imshow(X_test[1])
 model.predict(X_train[2].reshape(1,28,28)).argmax(axis=1)
 
 model.save('digit_recognizer.h5')
+
+params = {
+    "epochs": 25,
+    "validation_split": 0.2
+}
+
+#below part is for mlflow
+# # Set our tracking server uri for logging
+# mlflow.set_tracking_uri(uri="http://127.0.0.1:8080")
+
+# # Create a new MLflow Experiment
+# mlflow.set_experiment("MLflow")
+
+# # Start an MLflow run
+# with mlflow.start_run():
+#     # Log the hyperparameters
+#     mlflow.log_params(params)
+
+#     # Log the loss metric
+#     mlflow.log_metric("accuracy", accuracy)
+
+#     # Set a tag that we can use to remind ourselves what this run was for
+#     mlflow.set_tag("Training Info", "CNN model")
+
+#     # Infer the model signature
+#     signature = infer_signature(X_train, model.predict(X_train))
+
+#     # Log the model
+#     mlflow.keras.log_model(model, "model", artifact_path="models")
